@@ -54,7 +54,7 @@ import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
 } from "@ant-design/icons";
-import { useNavigate, useLocation } from "react-router-dom";
+// import { useNavigate, useLocation } from "react-router-dom";
 
 const { Header, Sider, Content, Footer } = Layout;
 const { Title, Text } = Typography;
@@ -75,15 +75,15 @@ const App: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const navigate = useNavigate();
-  const location = useLocation();
+  // const navigate = useNavigate();
+  // const location = useLocation();
 
   useEffect(() => {
     const fetchAndLogin = async () => {
       setError(null);
       setLoading(true);
 
-      const params = new URLSearchParams(location.search);
+      const params = new URLSearchParams(window.location.search);
       const id = params.get("id");
 
       if (!id) {
@@ -127,7 +127,7 @@ const App: React.FC = () => {
 
         if (!loginRes.ok) {
           message.error("Invalid credentials, please login manually.");
-          navigate("/login");
+          // navigate("/login");
           return;
         }
 
@@ -136,7 +136,7 @@ const App: React.FC = () => {
 
         if (!token) {
           message.error("Login failed, please login manually.");
-          navigate("/login");
+          // navigate("/login");
           return;
         }
 
@@ -162,7 +162,9 @@ const App: React.FC = () => {
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
-  }, [location.search, navigate]);
+  }, [window.location.search,
+    // navigate
+  ]);
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
