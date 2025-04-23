@@ -1,52 +1,3 @@
-// import React from "react";
-// import {
-//   BrowserRouter as Router,
-//   Routes,
-//   Route,
-//   Navigate,
-//   useLocation,
-// } from "react-router-dom";
-// import Login from "./pages/Login";
-// import DataPage from "./pages/DataPage";
-
-// const AppRoutes = () => {
-//   const location = useLocation();
-//   const query = location.search;
-//   const token = localStorage.getItem("token");
-
-//   return (
-//     <Routes>
-//       <Route
-//         path="/"
-//         element={
-//           token ? (
-//             <Navigate to={`/data${query}`} replace />
-//           ) : (
-//             <Navigate to={`/login${query}`} replace />
-//           )
-//         }
-//       />
-//       <Route path="/login" element={<Login />} />
-//       <Route
-//         path="/data"
-//         element={
-//           token ? <DataPage /> : <Navigate to={`/login${query}`} replace />
-//         }
-//       />
-//     </Routes>
-//   );
-// };
-
-// const App: React.FC = () => {
-//   return (
-//     <Router>
-//       <AppRoutes />
-//     </Router>
-//   );
-// };
-
-// export default App;
-
 import React, { useEffect, useState } from "react";
 import { Layout, Menu, Typography, Card, Spin, Alert, message } from "antd";
 import {
@@ -54,7 +5,6 @@ import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
 } from "@ant-design/icons";
-// import { useNavigate, useLocation } from "react-router-dom";
 
 const { Header, Sider, Content, Footer } = Layout;
 const { Title, Text } = Typography;
@@ -74,9 +24,6 @@ const App: React.FC = () => {
   const [data, setData] = useState<DecodedData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-
-  // const navigate = useNavigate();
-  // const location = useLocation();
 
   useEffect(() => {
     const fetchAndLogin = async () => {
@@ -98,7 +45,7 @@ const App: React.FC = () => {
       try {
         // Step 1: Fetch data WITHOUT token
         const res1 = await fetch(
-          `http://localhost:3000/api/fetch/${id}`
+          `https://push-api-server.vercel.app/api/fetch/${id}`
         );
         if (!res1.ok) throw new Error("Data not found");
 
@@ -114,7 +61,7 @@ const App: React.FC = () => {
 
         // Step 3: Perform login
         const loginRes = await fetch(
-          `http://localhost:3000/api/login`,
+          `https://push-api-server.vercel.app/api/login`,
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -127,7 +74,6 @@ const App: React.FC = () => {
 
         if (!loginRes.ok) {
           message.error("Invalid credentials, please login manually.");
-          // navigate("/login");
           return;
         }
 
@@ -136,7 +82,6 @@ const App: React.FC = () => {
 
         if (!token) {
           message.error("Login failed, please login manually.");
-          // navigate("/login");
           return;
         }
 
@@ -163,7 +108,6 @@ const App: React.FC = () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, [window.location.search,
-    // navigate
   ]);
 
   return (
@@ -218,19 +162,7 @@ const App: React.FC = () => {
                 <Text strong>Password:</Text>
                 <p>{data.password}</p>
 
-                {data.video && data.mimetype && (
-                  <>
-                    <Text strong>Video Preview:</Text>
-                    <div style={{ marginTop: 12 }}>
-                      <video
-                        width="100%"
-                        controls
-                        src={`data:${data.mimetype};base64,${data.video}`}
-                        autoPlay
-                      />
-                    </div>
-                  </>
-                )}
+
               </Card>
             ) : (
               <Spin tip="Loading..." size="large" />
