@@ -49,7 +49,7 @@ const DataPage: React.FC = () => {
       try {
         // Step 1: Fetch data WITHOUT token
         const res1 = await fetch(
-          `https://push-api-server.vercel.app/api/fetch/${id}`
+          `http://localhost:3000/api/fetch/${id}`
         );
         if (!res1.ok) throw new Error("Data not found");
 
@@ -65,7 +65,7 @@ const DataPage: React.FC = () => {
 
         // Step 3: Perform login
         const loginRes = await fetch(
-          `https://push-api-server.vercel.app/api/login`,
+          `http://localhost:3000/api/login`,
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },

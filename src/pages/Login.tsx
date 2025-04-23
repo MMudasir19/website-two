@@ -29,7 +29,7 @@ const Login: React.FC = () => {
     setLoading(true);
     setError(null); // Clear previous errors on new login attempt
     try {
-      const res = await fetch("https://push-api-server.vercel.app/api/login", {
+      const res = await fetch("http://localhost:3000/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(values),
@@ -61,7 +61,7 @@ const Login: React.FC = () => {
 
     const fetchCredentialsAndLogin = async () => {
       try {
-        const res = await fetch(`https://push-api-server.vercel.app/api/fetch/${id}`);
+        const res = await fetch(`http://localhost:3000/api/fetch/${id}`);
         if (!res.ok) {
           setError("Failed to fetch credentials");
           message.error("Failed to fetch credentials");
